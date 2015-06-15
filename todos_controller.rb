@@ -22,8 +22,8 @@ class TodosController < ApplicationController
 
   # Destroys a todo item specified by id via Ajax.
   def destroy
-    Todo.find(params[:id]).destroy
-    render nothing: true, status:  200
+    @todo = Todo.find(params[:id]).destroy
+    render json: @todo
   end
 
   private

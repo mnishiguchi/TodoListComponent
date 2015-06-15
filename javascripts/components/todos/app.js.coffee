@@ -3,7 +3,10 @@
 
 @initTodoList = (options) ->
 
-  flux = Fluxxor.initTodosFlux(options)
+  # Instantiates the flux.
+
+  flux = todolistFlux["init"](options)
+  constants = todolistFlux["constants"]
 
   # The main React component (<TodoList/>)
 
@@ -39,6 +42,7 @@
 
     render: ->
 
+      ButtonGroup = ReactBootstrap.ButtonGroup
       Button = ReactBootstrap.Button
       Input  = ReactBootstrap.Input
 
@@ -48,7 +52,7 @@
                 Add Todo</Button>
 
       add_form =
-        <form onSubmit={ @handleSubmitForm }>
+        <form onSubmit={ @handleSubmitForm } id="add_form">
           <Input type='text'
                  onChange={ @handleChangeAddTodoText }
                  placeholder="New Todo"
@@ -57,15 +61,8 @@
                  buttonAfter={ add_button } />
         </form>
 
-      Navbar  = ReactBootstrap.Navbar
-      Nav     = ReactBootstrap.Nav
-      NavItem = ReactBootstrap.NavItem
-      ButtonToolbar = ReactBootstrap.ButtonToolbar
-      ButtonGroup = ReactBootstrap.ButtonGroup
-      Button = ReactBootstrap.Button
-
       navigation =
-        <nav className="todo_navbar" >
+        <nav id="todo_navbar" >
           <ButtonGroup onSelect={ @handleSelectTodoNav }>
             <Button eventKey={1}>All</Button>
             <Button eventKey={2}>Active</Button>
@@ -74,17 +71,16 @@
           <Button onClick={ @handleClearCompleted } className="pull-right">Clear completed</Button>
         </nav>
 
-      todos = for id, todo of @state.todos
-                <Todo todo={ todo }
-                      key={ id }
-                      flux={ flux } />
+      createTodoItems = (todos) ->
+        for id, todo of todos
+          <Todo todo={ todo } key={ id } />
 
       <div id="todolist_wrapper">
         { add_form }
         { navigation }
-        <section className="todos">
-          { todos }
-        </section>
+        <div id="todo_items_wrapper">
+          { createTodoItems(@state.todos) }
+        </div>
       </div>
 
   # Rendering the whole component to the mount node
