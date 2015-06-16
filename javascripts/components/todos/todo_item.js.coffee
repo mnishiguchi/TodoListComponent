@@ -55,7 +55,7 @@
            else if @state.updated
              'success'
 
-    <form ref={"todo_item_" + @props.todo.id} >
+    <form ref={ "todo_item_" + @props.todo.id } >
       <Input type='text'
              onChange={ @handleChange }
              ref='input'

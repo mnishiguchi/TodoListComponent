@@ -6,7 +6,6 @@
   # Instantiates the flux.
 
   flux = todolistFlux.init(options)
-  constants = todolistFlux.constants
 
   # The controller(main) component (<TodoList/>)
 
