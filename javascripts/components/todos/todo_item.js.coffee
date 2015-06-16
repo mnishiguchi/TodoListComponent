@@ -1,14 +1,14 @@
 # The sub-component <TodoItem />
 
-@Todo = React.createClass
+@TodoItem = React.createClass
   mixins: [Fluxxor.FluxMixin(React)]
 
   getInitialState: ->
-    saved_value: @props.todo.content
-    value:       @props.todo.content
-    completed:   @props.todo.completed
-    changed:     false
-    updated:     false
+    savedValue: @props.todo.content
+    value:      @props.todo.content
+    completed:  @props.todo.completed
+    changed:    false
+    updated:    false
 
   handleToggleCompleted: (e) ->
     e.preventDefault()
@@ -19,7 +19,7 @@
 
   handleChange: ->
     input = @refs.input.getValue()
-    if input is @state.saved_value
+    if input is @state.savedValue
       @setState(value: input, changed: false, updated: false)
     else
       @setState(value: input, changed: true, updated: false)
@@ -28,21 +28,20 @@
     e.preventDefault()
     input = @refs.input.getValue()
     @getFlux().actions.updateTodo(@props.todo.id, input)
-    @setState(changed: false, updated: true, saved_value: input)
+    @setState(changed: false, updated: true, savedValue: input)
 
   handleCancelChange: (e) ->
     e.preventDefault()
-    @setState(value: @state.saved_value, changed: false)
+    @setState(value: @state.savedValue, changed: false)
 
   render: ->
 
     Button = ReactBootstrap.Button
     Input  = ReactBootstrap.Input
-    is_checked = if @state.completed then "fa fa-check-square-o" else "fa fa-square-o"
+    isChecked = if @state.completed then "fa fa-check-square-o" else "fa fa-square-o"
 
     checkbox =
-        <i className={ is_checked }
-            onClick={ @handleToggleCompleted }></i>
+      <i className={ isChecked } onClick={ @handleToggleCompleted }></i>
 
     update_button =
       <div>
@@ -56,7 +55,7 @@
            else if @state.updated
              'success'
 
-    <form className="todo_item">
+    <form ref={"todo_item_" + @props.todo.id} >
       <Input type='text'
              onChange={ @handleChange }
              ref='input'

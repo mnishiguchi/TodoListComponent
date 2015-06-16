@@ -5,17 +5,18 @@
 
   # Instantiates the flux.
 
-  flux = todolistFlux["init"](options)
-  constants = todolistFlux["constants"]
+  flux = todolistFlux.init(options)
+  constants = todolistFlux.constants
 
-  # The main React component (<TodoList/>)
+  # The controller(main) component (<TodoList/>)
 
-  @TodoList = React.createClass
+  TodoList = React.createClass
     mixins: [ Fluxxor.FluxMixin(React),
               Fluxxor.StoreWatchMixin("TodoStore") ]
 
     getInitialState: ->
       newTodoText: ""
+      filterMode: 1
 
     getStateFromFlux: ->
       flux = @getFlux()
@@ -37,19 +38,33 @@
         for id, todo of todos_wrapper
           @getFlux().actions.deleteTodo(id) if todo.completed
 
-    handleSelectTodoNav: (e) ->
-      # TODO
+    handleSelectTodoNav: (selectedKey) ->
+      if selectedKey is 1
+        @setState(filterMode: 1)
+      else if selectedKey is 2
+        @setState(filterMode: 2)
+      else if selectedKey is 3
+        @setState(filterMode: 3)
+
+    todoFilter: (todo) ->
+      if @state.filterMode is 1
+        true
+      else if @state.filterMode is 2
+        if todo.completed then false else true
+      else if @state.filterMode is 3
+        if todo.completed then true else false
 
     render: ->
 
+      # Bootstrap components
+      Nav = ReactBootstrap.Nav
+      NavItem = ReactBootstrap.NavItem
       ButtonGroup = ReactBootstrap.ButtonGroup
       Button = ReactBootstrap.Button
       Input  = ReactBootstrap.Input
 
       add_button =
-        <Button type="submit"
-                bsStyle="primary">
-                Add Todo</Button>
+        <Button type="submit" bsStyle="primary">Add Todo</Button>
 
       add_form =
         <form onSubmit={ @handleSubmitForm } id="add_form">
@@ -63,17 +78,17 @@
 
       navigation =
         <nav id="todo_navbar" >
-          <ButtonGroup onSelect={ @handleSelectTodoNav }>
-            <Button eventKey={1}>All</Button>
-            <Button eventKey={2}>Active</Button>
-            <Button eventKey={3}>Completed</Button>
-          </ButtonGroup>
           <Button onClick={ @handleClearCompleted } className="pull-right">Clear completed</Button>
+          <Nav bsStyle='pills' activeKey={ @state.filterMode } onSelect={ @handleSelectTodoNav }>
+            <NavItem eventKey={1}>All</NavItem>
+            <NavItem eventKey={2}>Active</NavItem>
+            <NavItem eventKey={3}>Completed</NavItem>
+          </Nav>
         </nav>
 
-      createTodoItems = (todos) ->
-        for id, todo of todos
-          <Todo todo={ todo } key={ id } />
+      createTodoItems = (todos) =>
+        for id, todo of todos when @todoFilter(todo)
+            <TodoItem key={ id } todo={ todo } />
 
       <div id="todolist_wrapper">
         { add_form }
