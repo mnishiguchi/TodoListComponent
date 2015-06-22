@@ -1,6 +1,6 @@
-# The sub-component <TodoItem />
+# <TodoItem />
 
-@TodoItem = React.createClass
+module.exports = React.createClass
   mixins: [Fluxxor.FluxMixin(React)]
 
   getInitialState: ->
@@ -38,6 +38,7 @@
 
     Button = ReactBootstrap.Button
     Input  = ReactBootstrap.Input
+
     isChecked = if @state.completed then "fa fa-check-square-o" else "fa fa-square-o"
 
     checkbox =

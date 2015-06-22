@@ -1,8 +1,8 @@
-@todolistFlux ||= {}
+constants = require('../constants/todo_constants')
 
 # Semantic actions
 
-@todolistFlux["actions"] =
+TodoActions =
 
   # Creates a new todo to database. Dispatches ADD_TODO on successful Ajax.
   addTodo:    (content) ->
@@ -17,7 +17,7 @@
         id:        data.id
         content:   data.content
         completed: data.completed
-      @dispatch(todolistFlux.constants.ADD_TODO, new_todo: new_todo)
+      @dispatch(constants.ADD_TODO, new_todo: new_todo)
       $.growl.notice title: "", message: "Todo added"
     .fail (jqXHR, textStatus, errorThrown) =>
       $.growl.error title: "Error", message: "Error adding todo"
@@ -33,7 +33,7 @@
       data:   params
     .done (data, textStatus, jqXHR) =>
       title = if data.completed then "Completed" else "Not completed"
-      @dispatch(todolistFlux.constants.TOGGLE_TODO, id: data.id, completed: data.completed)
+      @dispatch(constants.TOGGLE_TODO, id: data.id, completed: data.completed)
       $.growl.notice title: title, message: data.content
     .fail (jqXHR, textStatus, errorThrown) =>
       $.growl.error title: "Error", message: "Error toggleing todo completion"
@@ -48,7 +48,7 @@
       url:    "/todos/" + id
       data:   params
     .done (data, textStatus, jqXHR) =>
-      @dispatch(todolistFlux.constants.UPDATE_TODO, id: data.id, new_content: data.content)
+      @dispatch(constants.UPDATE_TODO, id: data.id, new_content: data.content)
       $.growl.notice title: "", message: "Todo updated"
     .fail (jqXHR, textStatus, errorThrown) =>
       $.growl.error title: "Error", message: "Error updating todo"
@@ -60,8 +60,10 @@
       method: "DELETE"
       url:    "/todos/" + id
     .done (data, textStatus, jqXHR) =>
-      @dispatch(todolistFlux.constants.DELETE_TODO, id: data.id)
+      @dispatch(constants.DELETE_TODO, id: data.id)
       $.growl.notice title: "Deleted", message: data.content
     .fail (jqXHR, textStatus, errorThrown) =>
       $.growl.error title: "Error", message: "Error deleting todos"
       console.error textStatus, errorThrown.toString()
+
+module.exports = TodoActions
