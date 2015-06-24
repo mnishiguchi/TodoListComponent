@@ -1,8 +1,8 @@
 TodoItem       = require('./TodoItem')
 
-# <TodoApp /> - The controller component
+# <TodoApp /> The controller component
 
-module.exports = React.createClass
+TodoApp = React.createClass
   mixins: [ Fluxxor.FluxMixin(React),
             Fluxxor.StoreWatchMixin("TodoStore") ]
 
@@ -89,3 +89,5 @@ module.exports = React.createClass
         { createTodoItems(@state.todos) }
       </div>
     </div>
+
+module.exports = TodoApp

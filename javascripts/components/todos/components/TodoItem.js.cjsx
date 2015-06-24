@@ -1,6 +1,6 @@
 # <TodoItem />
 
-module.exports = React.createClass
+TodoItem = React.createClass
   mixins: [Fluxxor.FluxMixin(React)]
 
   getInitialState: ->
@@ -65,3 +65,5 @@ module.exports = React.createClass
              addonAfter={ update_button if @state.changed }
              bsStyle={ type } />
     </form>
+
+module.exports = TodoItem
