@@ -4,6 +4,9 @@ TodoStore = Fluxxor.createStore
 
   initialize: (todos) ->
     @todos = {}
+
+    # Adds initial data if any.
+    # Format: { 8: {completed: false, content: "Practice Ruby", id: 8}, ... }
     if todos
       for todo in todos
         @todos[todo.id] = todo

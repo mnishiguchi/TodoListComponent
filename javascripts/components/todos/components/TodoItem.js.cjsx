@@ -4,7 +4,6 @@ TodoItem = React.createClass
   mixins: [Fluxxor.FluxMixin(React)]
 
   getInitialState: ->
-    savedValue: @props.todo.content
     value:      @props.todo.content
     completed:  @props.todo.completed
     changed:    false
@@ -19,7 +18,8 @@ TodoItem = React.createClass
 
   handleChange: ->
     input = @refs.input.getValue()
-    if input is @state.savedValue
+    originalContent = @props.todo.content
+    if input is originalContent
       @setState(value: input, changed: false, updated: false)
     else
       @setState(value: input, changed: true, updated: false)
@@ -28,11 +28,12 @@ TodoItem = React.createClass
     e.preventDefault()
     input = @refs.input.getValue()
     @getFlux().actions.updateTodo(@props.todo.id, input)
-    @setState(changed: false, updated: true, savedValue: input)
+    @setState(changed: false, updated: true)
 
   handleCancelChange: (e) ->
     e.preventDefault()
-    @setState(value: @state.savedValue, changed: false)
+    originalContent = @props.todo.content
+    @setState(value: originalContent, changed: false)
 
   render: ->
 

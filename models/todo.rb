@@ -12,4 +12,8 @@
 
 class Todo < ActiveRecord::Base
   belongs_to :user
+
+  def Todo.getInitialData
+    User.current_user.todos.select(:id, :content, :completed, :created_at).to_json
+  end
 end

@@ -10,5 +10,3 @@
 //= require fluxxor
 //= require components
 //= require growl
-//
-//= require_tree .

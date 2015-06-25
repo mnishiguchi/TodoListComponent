@@ -5,9 +5,10 @@ TodoApp     = require('./components/TodoApp')
 # Invoked in a Rails template with JSON data passed in.
 
 React._initTodoApp = (options) ->
+
   # Instantiates the stores
   stores =
-    TodoStore: new TodoStore(options["todos"])
+    TodoStore: new TodoStore(options["todos"] if options)
 
   # Actions
   actions = TodoActions
