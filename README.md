@@ -1,31 +1,27 @@
 Todo list component 2
 =====================
 
-This is a simple React.js component implemented with Fluxxor for Ruby on Rails application.
+This is a simple React.js component implemented with Fluxxor on Ruby on Rails application. TodosController's index action prepares initial todo data and renders the index.html.haml, where the React component is initialized with the data passed in from the controller. Despite not being a server-side rendering, this structure eliminates the need to load the component's initial data in a simple way. Also, I find this code readable because I explicitly invoke the React component on a HTML template.
 
 ![alt text](https://github.com/mnishiguchi/todolist2_react_fluxxor_rails/blob/master/screenshot.jpg)
 
 [React + Fluxxor on RailsサーバーサイドでFluxの初期化(Japanese)](http://qiita.com/mnishiguchi/items/594178849da209b9c9fd)
 
-## 概要
-React + FluxxorのコンポーネントにRailsのhtmlテンプレート上にてJSONデータを渡してから、レンダリングする。サーバサイドレンダリングではない。
+## Environment
+- OSX Yosemite
+- Rails 4.2.1
+- ruby 2.2.1
 
-## 目的
-レンダリングの前に初期のデータを準備しておくことにより、初期の読み込みをなくす。
+## Relevant Gems
+- react-rails
+- sprockets-coffee-react
+- browserify-rails
 
-## 環境
-OSX Yosemite
-Rails 4.2.1
-ruby 2.2.1
+## How it works?
+#### TodosController's index action prepares data in JSON passes it to the template via @todos instance variable.
+`todos_controller.rb`
 
-## 関連Gem
-react-rails
-sprockets-coffee-react
-browserify-rails
-
-## コントローラ（#index）でJSONデータを準備し、＠変数に格納。
-
-```rb:todos_controller.rb
+```
 class TodosController < ApplicationController
   ...
 
@@ -44,9 +40,10 @@ class TodosController < ApplicationController
 end
 ```
 
-## Storeがデータを受け取れるようにinitializeメソッドをセットアップ
+#### Set up the TodoStore's initialize method so that it can accept initial data.
+`todo_store.js.coffee`
 
-```coffeescript:todo_store.js.coffee
+```
 constants = require('../constants/todo_constants')
 
 TodoStore = Fluxxor.createStore
@@ -69,9 +66,10 @@ TodoStore = Fluxxor.createStore
     todos: @todos
   ...
 ```
-## ReactコンポーネントとFluxを受け取ったデータを用い初期化するメソッドを準備。
+#### Create a method to initialize the React component and its Flux with the data passed in as an argument.
+`app.js.cjsx`
 
-```coffeescript:app.js.cjsx
+```
 TodoStore   = require('./stores/todo_store')
 TodoActions = require('./actions/todo_actions')
 TodoApp     = require('./components/TodoApp')
@@ -98,9 +96,10 @@ React._initTodoApp = (options) ->
   if (mountNode = document.getElementById("react_todolist"))
     React.render <TodoApp flux={ flux } />, mountNode
 ```
-## htmlテンプレート上で初期化メソッドにデータを渡し、呼ぶ。
+#### Invoke the initializer method with the data that is passed in from the controller.
+`index.html.haml`
 
-```haml:index.html.haml
+```
 %h1 Todo List
 
 #react_todolist
@@ -110,8 +109,6 @@ React._initTodoApp = (options) ->
   $(document).on "page:change", ->
     React._initTodoApp(todos: #{ @todos })
 ```
-
-以上
 
 
 ## Resources
