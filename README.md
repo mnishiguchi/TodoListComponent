@@ -3,7 +3,7 @@
 - a simple React.js component implemented with Fluxxor on Ruby on Rails application.
 - TodosController's index action prepares initial todo data and renders the index.html.haml, where the React component is initialized with the data passed in.
 
-![alt text](https://github.com/mnishiguchi/todolist2_react_fluxxor_rails/blob/master/screenshot.png)
+![alt text](https://github.com/mnishiguchi/todolist2_react_fluxxor_rails/blob/master/Screenshot.png)
 
 [日本語](http://qiita.com/mnishiguchi/items/594178849da209b9c9fd)
 
