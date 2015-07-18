@@ -37,33 +37,34 @@ R = React.DOM
   todoFilter: (todo) ->
     switch @state.filterMode
       when "ALL" then true
-      when "ACTIVE"
-        if not todo.completed then true else false
-      when "DONE"
-        if todo.completed then true else false
+      when "ACTIVE" then not todo.completed
+      when "DONE" then todo.completed
 
   addForm: ->
     R.form
-      className: "form-inline"
+      className: "form-horizontal"
       id:       "add_form"
       onSubmit: @handleSubmitForm
       R.div
         className: "form-group"
-        R.input
-          className:   "form-control"
-          type:        "text"
-          placeholder: "New Todo"
-          ref:         'input'
-          value:       @state.newTodoText
-          onChange:    @handleChangeAddTodoText
-        R.button
-          type:      "submit"
-          className: "btn btn-primary"
-          "Add Todo"
+        R.div
+          className: "input-group"
+          R.input
+            className:   "form-control"
+            type:        "text"
+            placeholder: "New Todo"
+            ref:         'input'
+            value:       @state.newTodoText
+            onChange:    @handleChangeAddTodoText
+          R.div
+            className: "input-group-addon"
+            R.button
+              type:      "submit"
+              "Add"
 
   filterButtons: ->
     R.ul
-      className: "nav nav-pills"
+      className: "nav nav-tabs"
       id: "filter_buttons"
       R.li
         className: if @state.filterMode is "ALL" then "active" else ""
