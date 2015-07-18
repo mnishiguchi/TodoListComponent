@@ -12,12 +12,13 @@
 ---
 
 ## Environment
-- ruby 2.2.1
+- Ruby 2.2.1
 - Rails 4.2.1
 
 ## Dependencies
 - react-rails
 - Fluxxor
+- Bootstrap3
 
 ## How it works?
 #### TodosController's index action prepares data in JSON passes it to the template via @todos instance variable.
