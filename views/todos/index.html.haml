@@ -1,8 +1,12 @@
-%h1 Todos
+- provide(:title, "Todos")
 
-#react_todolist
+.col-md-offset-3.col-md-6.col-sm-offset-2.col-sm-8
+  %h1.page-header Todos
+
+  / MountNode
+  #todo_component
 
 :coffee
 
-  $(document).on "page:change", ->
-    React._initTodoApp(todos: #{ @todos })
+  $(document).ready ->
+    window.initializeTodoApp("todo_component", todos: #{ @todos })

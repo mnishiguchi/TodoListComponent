@@ -1,6 +1,4 @@
-# Constants (Action types)
-
-module.exports =
+@TodoConstants =
   ADD_TODO:    'ADD_TODO'
   TOGGLE_TODO: 'TOGGLE_TODO'
   UPDATE_TODO: 'UPDATE_TODO'
