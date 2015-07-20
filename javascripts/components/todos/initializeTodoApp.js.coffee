@@ -1,10 +1,12 @@
 # Invoked in a Rails template with JSON data passed in.
 
-window.initializeTodoApp = (mountNode, options) ->
+@initializeTodoApp = (mountNode, options={}) ->
+
+  todoData =  if options.hasOwnProperty("todos") then options["todos"] else []
 
   # Instantiating the stores.
   stores =
-    TodoStore: new TodoStore(options["todos"] if options)
+    TodoStore: new TodoStore(todoData)
 
   # Actions
   actions = TodoActions

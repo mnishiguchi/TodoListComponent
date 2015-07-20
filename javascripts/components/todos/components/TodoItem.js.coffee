@@ -41,12 +41,12 @@ R = React.DOM
 
   field: ->
     R.input
-      className:   "form-control"
-      type:        "text"
-      placeholder: ""
-      ref:         'input'
-      value:       @state.value
-      onChange:    @handleChange
+      className: "form-control"
+      type:      "text"
+      style:     { fontSize: "1.5em" }
+      ref:       'input'
+      value:     @state.value
+      onChange:  @handleChange
 
   fieldColor: ->
     if @state.changed

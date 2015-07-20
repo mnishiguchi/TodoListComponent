@@ -1,7 +1,7 @@
 @TodoStore = Fluxxor.createStore
 
-  initialize: (todos) ->
-    @todos = todos || {}
+  initialize: (todos=[]) ->
+    @todos = todos
 
     @bindActions(TodoConstants.ADD_TODO,    @onAddTodo,
                  TodoConstants.TOGGLE_TODO, @onToggleTodo,

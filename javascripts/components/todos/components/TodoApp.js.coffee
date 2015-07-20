@@ -57,8 +57,9 @@ R = React.DOM
             value:       @state.newTodoText
             onChange:    @handleChangeAddTodoText
           R.div
-            className: "input-group-addon"
+            className: "input-group-btn"
             R.button
+              className: "btn btn-primary"
               type:      "submit"
               "Add"
 
