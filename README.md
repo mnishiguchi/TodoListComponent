@@ -49,20 +49,22 @@ end
 ```coffee
 @TodoStore = Fluxxor.createStore
 
-  initialize: (todos) ->
-    @todos = todos || {}  # Store the data
+  initialize: (todos=[]) ->
+    @todos = todos
   ...
 ```
 
 #### Create a method to initialize the React component and its Flux with the data passed in as an argument.
-`app.js.coffee`
+`initializeTodoApp.js.coffee`
 
 ```coffee
-window.initializeTodoApp = (mountNode, options) ->
+@initializeTodoApp = (mountNode, options={}) ->
+
+  todoData =  if options.hasOwnProperty("todos") then options["todos"] else []
 
   # Instantiating the stores.
   stores =
-    TodoStore: new TodoStore(options["todos"] if options)
+    TodoStore: new TodoStore(todoData)
 
   # Actions
   actions = TodoActions
