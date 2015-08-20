@@ -23,8 +23,6 @@
 
 #### Prepares data in JSON and put it into an instance variable.
 
-`todos_controller.rb`
-
 ```rb
 class TodosController < ApplicationController
   #...
