@@ -1,7 +1,8 @@
 #Todo list component with Fluxxor
 
-- a simple React.js component implemented with Fluxxor on Ruby on Rails application.
-- TodosController's index action prepares initial todo data and renders the index.html.haml, where the React component is initialized with the data passed in.
+- A simple React.js component implemented with Fluxxor on Ruby on Rails application.
+- A controller prepares initial todo data.
+- The component is invoked inside a view template with the data passed in.
 
 [日本語](http://qiita.com/mnishiguchi/items/594178849da209b9c9fd)
 
@@ -11,40 +12,32 @@
 
 ---
 
-## Environment
+## Requirements
 - Ruby 2.2.1
 - Rails 4.2.1
-
-## Dependencies
-- react-rails
+- React.js
 - Fluxxor
 - Bootstrap3
 
 ## How it works?
-#### TodosController's index action prepares data in JSON passes it to the template via @todos instance variable.
+
+#### Prepares data in JSON and put it into an instance variable.
+
 `todos_controller.rb`
 
 ```rb
 class TodosController < ApplicationController
-  ...
+  #...
 
   # Initializes the todo app with initial JSON data.
   def index
     @todos = current_user.todos.select(:id, :content, :completed, :created_at).to_json
   end
 
-  ...
-
-  private
-
-    def todo_params
-      params.require(:todo).permit(:content, :completed)
-    end
-end
+  #...
 ```
 
-#### Set up the TodoStore's initialize method so that it can accept initial data.
-`todo_store.js.coffee`
+#### Set up TodoStore's `initialize` method so that it can accept initial data.
 
 ```coffee
 @TodoStore = Fluxxor.createStore
@@ -54,48 +47,44 @@ end
   ...
 ```
 
-#### Create a method to initialize the React component and its Flux with the data passed in as an argument.
-`initializeTodoApp.js.coffee`
+#### Create a method to initialize the component and its Flux with the data.
 
 ```coffee
-@initializeTodoApp = (mountNode, options={}) ->
+class @Components.initTodoApp
+  constructor: (mountNode, options={}) ->
 
-  todoData =  if options.hasOwnProperty("todos") then options["todos"] else []
+    todoData =  if options.hasOwnProperty("todos") then options["todos"] else []
 
-  # Instantiating the stores.
-  stores =
-    TodoStore: new TodoStore(todoData)
+    # Instantiating the stores.
+    stores =
+      TodoStore: new Components.TodoStore(todoData)
 
-  # Actions
-  actions = TodoActions
+    # Actions
+    actions = Components.TodoActions
 
-  # Instantiating the flux with the stores and actions.
-  flux = new Fluxxor.Flux(stores, actions)
+    # Instantiating the flux with the stores and actions.
+    flux = new Fluxxor.Flux(stores, actions)
 
-  # Logging for the "dispatch" event.
-  flux.on 'dispatch', (type, payload) ->
-    console.log "[Dispatch]", type, payload if console?.log?
+    # Logging for the "dispatch" event.
+    flux.on 'dispatch', (type, payload) ->
+      console.log "[Dispatch]", type, payload if console?.log?
 
-  # Rendering the whole component to the mount node.
-  # Checking if mount node exists to suppress error caused by loading irrelevant pages.
-  if(m = document.getElementById(mountNode))
-    app = React.createElement TodoApp, {flux: flux}
-    React.render(app, m)
+    # Rendering the whole component to the mount node.
+    app = React.createElement Components.TodoApp, {flux: flux}
+    React.render(app, document.getElementById(mountNode))
 ```
 
-#### Invoke the initializer method inside the view template with data.
-`index.html.haml`
+#### Invoke the component inside the view template passing in data.
 
 ```haml
 %h1 Todo List
 
-  / MountNode
-  #todo_component
+/ MountNode
+#todo_component
 
 :coffee
-
-  $(document).ready ->
-    window.initializeTodoApp("todo_component", todos: #{ @todos })
+  jQuery ->
+    new Components.initTodoApp("todo_component", todos: #{ Todo.getInitialData })
 ```
 
 
