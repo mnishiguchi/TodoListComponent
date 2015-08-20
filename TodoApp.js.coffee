@@ -1,6 +1,6 @@
 R = React.DOM
 
-@TodoApp = React.createClass
+@Components.TodoApp = React.createClass
   mixins: [ Fluxxor.FluxMixin(React),
             Fluxxor.StoreWatchMixin("TodoStore") ]
 

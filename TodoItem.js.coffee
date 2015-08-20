@@ -16,10 +16,10 @@ R = React.DOM
 
   handleChange: (e) ->
     input = e.target.value
-    if input is @props.todo.content
-      @setState(value: input, changed: false, updated: false)
-    else
-      @setState(value: input, changed: true, updated: false)
+    newState = if input is @props.todo.content
+    then { value: input, changed: false, updated: false }
+    else { value: input, changed: true, updated: false }
+    @setState newState
 
   handleUpdate: (e) ->
     e.preventDefault()

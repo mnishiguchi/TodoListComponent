@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-# ruby 2.2.1p85
+
 gem 'rails',       '4.2.1'
 gem 'pg',          '~> 0.17.1'
 
@@ -11,11 +11,11 @@ gem 'turbolinks',   '~> 2.5.3'
 gem 'jbuilder',     '~> 2.0'
 gem 'sdoc',         '~> 0.4.0', group: :doc
 
-gem 'jquery-turbolinks',       '~> 0.2.1'   # For jQuery to work with turbolinks.
-gem 'bootstrap-sass',          '~> 3.2.0.0' # Converts Less to Sass.
-gem 'font-awesome-rails',      '~> 4.3.0.0' # For icons.
-gem 'haml-rails',              '~> 0.9.0'   # For HAML.
-gem 'react-rails',             '~> 1.0.0'   # Compiles JSX.
+gem 'jquery-turbolinks',       '~> 0.2.1'
+gem 'bootstrap-sass',          '~> 3.2.0.0'
+gem 'font-awesome-rails',      '~> 4.3.0.0'
+gem 'haml-rails',              '~> 0.9.0'
+gem 'react-rails',             '~> 1.0.0'
 
 gem 'bower-rails', '~> 0.9.2'
 source 'https://rails-assets.org' do
